@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    pts_1 = new OpenFFUcontrolPTS(this, m_bus);
-    pts_2 = new OpenFFUcontrolPTS(this, m_bus);
-
     m_agilentReadTimer.setInterval(2000);
     connect(&m_agilentReadTimer, SIGNAL(timeout()), &m_agilent, SLOT(slot_read()));
     connect(&m_agilent, SIGNAL(signal_receivedRaw(QString)), this, SLOT(slot_agilentGotData(QString)));
@@ -37,6 +34,8 @@ void MainWindow::openModbus(QString m_interface)
         return;
     }
 
+    pts_1 = new OpenFFUcontrolPTS(this, m_bus);
+    pts_2 = new OpenFFUcontrolPTS(this, m_bus);
     m_PTSreadTimer.start();
     fprintf(stderr, "EbmModbus::open(): Modbus interface configured and connected.\n");
 }
@@ -44,6 +43,8 @@ void MainWindow::openModbus(QString m_interface)
 void MainWindow::closeModbus()
 {
     m_PTSreadTimer.stop();
+    delete pts_1;
+    delete pts_2;
     modbus_close(m_bus);
     modbus_free(m_bus);
 }
@@ -71,7 +72,7 @@ void MainWindow::slot_agilentGotData(QString data)
 void MainWindow::on_actionConnect_PTS_triggered(bool checked)
 {
     if (checked)
-        openModbus("/dev/ttyUSB0");
+        openModbus("/dev/ttyS0");
     else
         closeModbus();
 }

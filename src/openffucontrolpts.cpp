@@ -17,8 +17,8 @@ void OpenFFUcontrolPTS::setSlaveAddress(quint16 adr)
 
 double OpenFFUcontrolPTS::requestMeasuredTemperature()
 {
-    int result;
-    uint16_t rawdata[4];
+    int result =0;
+    uint16_t rawdata[4] = {0,0,0,0};
     double temperature;
     modbus_set_slave(m_bus, m_adr);
     // Bus clearance time
@@ -34,7 +34,7 @@ double OpenFFUcontrolPTS::requestMeasuredTemperature()
     else
     {
         // Error
-        return -10000.0;
+        return -1000.0;
     }
 }
 
