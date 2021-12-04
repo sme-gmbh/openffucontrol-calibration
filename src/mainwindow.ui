@@ -120,10 +120,11 @@ color:#909090;
          <property name="styleSheet">
           <string notr="true">color:#30FF30;
 background-color:#303030;
-selection-color:#707000;
+selection-color:#30FF30;
+selection-background-color:transparent;
 border:1px solid grey;
 padding:0;
-</string>
+padding-right:32px;</string>
          </property>
          <property name="frame">
           <bool>true</bool>
@@ -372,10 +373,14 @@ padding:0;
          <property name="styleSheet">
           <string notr="true">color:#30FF30;
 background-color:#303030;
-selection-color:#707000;
+selection-color:#30FF30;
+selection-background-color:transparent;
 border:1px solid grey;
 padding:0;
-</string>
+padding-right:32px;</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhFormattedNumbersOnly</set>
          </property>
          <property name="frame">
           <bool>true</bool>
