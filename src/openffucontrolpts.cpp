@@ -17,14 +17,21 @@ void OpenFFUcontrolPTS::setSlaveAddress(quint16 adr)
 
 double OpenFFUcontrolPTS::requestMeasuredTemperature()
 {
-    int result =0;
-    uint16_t rawdata[4] = {0,0,0,0};
+    int result = 0;
+    T_float_conversion rawdata;
     double temperature;
     modbus_set_slave(m_bus, m_adr);
     // Bus clearance time
     QThread::msleep(100);
-    //result = modbus_read_input_registers(m_bus, 0x0000, 2, (uint16_t*)&rawdata);
-    temperature = modbus_get_float(rawdata);
+    result = modbus_read_input_registers(m_bus, 0x0000, 2, (uint16_t*)rawdata.b);
+
+    // Sort data according to endianess
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    temperature = sortedData.f;
     if (result >= 0)
     {
         //temperature = rawdata;
@@ -41,15 +48,21 @@ double OpenFFUcontrolPTS::requestMeasuredTemperature()
 double OpenFFUcontrolPTS::requestCalibrationOffset()
 {
     int result;
-    float rawdata;
+    T_float_conversion rawdata;
     double temperature;
     modbus_set_slave(m_bus, m_adr);
     // Bus clearance time
     QThread::msleep(100);
-    result = modbus_read_registers(m_bus, 0x0000, 2, (uint16_t*)&rawdata);
+    result = modbus_read_registers(m_bus, 0x0000, 2, (uint16_t*)rawdata.b);
     if (result >= 0)
     {
-        temperature = rawdata;
+        // Sort data according to endianess
+        T_float_conversion sortedData;
+        sortedData.b[0] = rawdata.b[0];
+        sortedData.b[1] = rawdata.b[1];
+        sortedData.b[2] = rawdata.b[2];
+        sortedData.b[3] = rawdata.b[3];
+        temperature = sortedData.f;
         emit signal_receivedMeasuredTemperature(temperature);
         return temperature;
     }
@@ -66,7 +79,15 @@ void OpenFFUcontrolPTS::writeCalibrationOffset(double offset)
     modbus_set_slave(m_bus, m_adr);
     // Bus clearance time
     QThread::msleep(100);
-    result = modbus_write_registers(m_bus, 0x0000, 2, (uint16_t*)&offset);
+    // Sort data according to endianess
+    T_float_conversion rawdata;
+    rawdata.f = offset;
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    result = modbus_write_registers(m_bus, 0x0000, 2, (uint16_t*)sortedData.b);
     if (result >= 0)
     {
 

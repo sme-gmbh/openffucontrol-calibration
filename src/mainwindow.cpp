@@ -86,5 +86,17 @@ void MainWindow::slot_readPTS()
 
     ui->doubleSpinBox_PTS1_temp->setValue(temp_1);
 //    ui->doubleSpinBox_PTS2_temp->setValue(temp_2);
+
+    double offset_1 = pts_1->requestCalibrationOffset();
+    ui->doubleSpinBox_PTS1_offset->setValue(offset_1);
+
+    double offset_2 = pts_2->requestCalibrationOffset();
+    ui->doubleSpinBox_PTS2_offset->setValue(offset_2);
 }
 
+
+void MainWindow::on_pushButton_PTS2_calibrate_clicked()
+{
+    double offset = ui->doubleSpinBox_PTS1_temp->value() - ui->doubleSpinBox_PTS2_temp->value();
+    pts_2->writeCalibrationOffset(offset);
+}

@@ -20,6 +20,16 @@ public:
     void writeCalibrationOffset(double offset);
 
 private:
+    typedef union{
+        double d;
+        uint8_t b[8];
+    } T_double_conversion;
+
+    typedef union{
+        float f;
+        uint8_t b[4];
+    } T_float_conversion;
+
     QString m_interface;
     modbus_t *m_bus;
     quint16 m_adr;

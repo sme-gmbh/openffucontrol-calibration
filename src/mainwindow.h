@@ -33,6 +33,8 @@ private slots:
 
     void slot_readPTS();
 
+    void on_pushButton_PTS2_calibrate_clicked();
+
 private:
     Ui::MainWindow *ui;
     Agilent34970A m_agilent;

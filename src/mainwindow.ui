@@ -531,10 +531,10 @@ padding:0;
           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
          </property>
          <property name="readOnly">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::UpDownArrows</enum>
+          <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="accelerated">
           <bool>false</bool>
