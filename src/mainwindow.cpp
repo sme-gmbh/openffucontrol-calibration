@@ -80,12 +80,12 @@ void MainWindow::on_actionConnect_PTS_triggered(bool checked)
 void MainWindow::slot_readPTS()
 {
     pts_1->setSlaveAddress((int)ui->doubleSpinBox_PTS1_address->value());
-//    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
+    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
     double temp_1 = pts_1->requestMeasuredTemperature();
-//    double temp_2 = pts_2->requestMeasuredTemperature();
+    double temp_2 = pts_2->requestMeasuredTemperature();
 
     ui->doubleSpinBox_PTS1_temp->setValue(temp_1);
-//    ui->doubleSpinBox_PTS2_temp->setValue(temp_2);
+    ui->doubleSpinBox_PTS2_temp->setValue(temp_2);
 
     double offset_1 = pts_1->requestCalibrationOffset();
     ui->doubleSpinBox_PTS1_offset->setValue(offset_1);
@@ -98,5 +98,6 @@ void MainWindow::slot_readPTS()
 void MainWindow::on_pushButton_PTS2_calibrate_clicked()
 {
     double offset = ui->doubleSpinBox_PTS1_temp->value() - ui->doubleSpinBox_PTS2_temp->value();
+    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
     pts_2->writeCalibrationOffset(offset);
 }
