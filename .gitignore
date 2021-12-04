@@ -66,6 +66,7 @@ Makefile*
 *.app
 
 bin/**
+build*
 **/database/**
 logs/**
 
