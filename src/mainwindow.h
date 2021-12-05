@@ -35,6 +35,12 @@ private slots:
 
     void on_pushButton_PTS2_calibrate_clicked();
 
+    void on_pushButton_PTS2_setSerialNumber_clicked();
+
+    void on_pushButton_PTS2_setReference_clicked();
+
+    void on_pushButton_PTS2_setTestResistorR304_clicked();
+
 private:
     Ui::MainWindow *ui;
     Agilent34970A m_agilent;

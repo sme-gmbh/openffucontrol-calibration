@@ -63,7 +63,7 @@ double OpenFFUcontrolPTS::requestCalibrationOffset()
         sortedData.b[2] = rawdata.b[2];
         sortedData.b[3] = rawdata.b[3];
         temperature = sortedData.f;
-        emit signal_receivedMeasuredTemperature(temperature);
+        emit signal_receivedCalibrationOffset(temperature);
         return temperature;
     }
     else
@@ -88,6 +88,166 @@ void OpenFFUcontrolPTS::writeCalibrationOffset(double offset)
     sortedData.b[2] = rawdata.b[2];
     sortedData.b[3] = rawdata.b[3];
     result = modbus_write_registers(m_bus, 0x0000, 2, (uint16_t*)sortedData.b);
+    if (result >= 0)
+    {
+
+    }
+    else
+    {
+        // Error
+    }
+}
+
+double OpenFFUcontrolPTS::requestResistanceReference()
+{
+    int result = 0;
+    T_float_conversion rawdata;
+    double resistance;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    result = modbus_read_registers(m_bus, 0x0004, 2, (uint16_t*)rawdata.b);
+
+    // Sort data according to endianess
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    resistance = sortedData.f;
+    if (result >= 0)
+    {
+        emit signal_receivedResistanceReference(resistance);
+        return resistance;
+    }
+    else
+    {
+        // Error
+        return -1000.0;
+    }
+}
+
+void OpenFFUcontrolPTS::writeResistanceReference(double r)
+{
+    int result;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    // Sort data according to endianess
+    T_float_conversion rawdata;
+    rawdata.f = r;
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    result = modbus_write_registers(m_bus, 0x0004, 2, (uint16_t*)sortedData.b);
+    if (result >= 0)
+    {
+
+    }
+    else
+    {
+        // Error
+    }
+}
+
+double OpenFFUcontrolPTS::requestResistanceR304()
+{
+    int result = 0;
+    T_float_conversion rawdata;
+    double resistance;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    result = modbus_read_registers(m_bus, 0x0008, 2, (uint16_t*)rawdata.b);
+
+    // Sort data according to endianess
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    resistance = sortedData.f;
+    if (result >= 0)
+    {
+        emit signal_receivedResistanceReference(resistance);
+        return resistance;
+    }
+    else
+    {
+        // Error
+        return -1000.0;
+    }
+}
+
+void OpenFFUcontrolPTS::writeResistanceR304(double r)
+{
+    int result;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    // Sort data according to endianess
+    T_float_conversion rawdata;
+    rawdata.f = r;
+    T_float_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    result = modbus_write_registers(m_bus, 0x0008, 2, (uint16_t*)sortedData.b);
+    if (result >= 0)
+    {
+
+    }
+    else
+    {
+        // Error
+    }
+}
+
+uint32_t OpenFFUcontrolPTS::requestSerialNumber()
+{
+    int result = 0;
+    T_uint32_conversion rawdata;
+    double resistance;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    result = modbus_read_registers(m_bus, 0x000C, 2, (uint16_t*)rawdata.b);
+
+    // Sort data according to endianess
+    T_uint32_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    resistance = sortedData.n;
+    if (result >= 0)
+    {
+        emit signal_receivedResistanceReference(resistance);
+        return resistance;
+    }
+    else
+    {
+        // Error
+        return 0;
+    }
+}
+
+void OpenFFUcontrolPTS::writeSerialNumber(u_int32_t serial)
+{
+    int result;
+    modbus_set_slave(m_bus, m_adr);
+    // Bus clearance time
+    QThread::msleep(100);
+    // Sort data according to endianess
+    T_uint32_conversion rawdata;
+    rawdata.n = serial;
+    T_uint32_conversion sortedData;
+    sortedData.b[0] = rawdata.b[0];
+    sortedData.b[1] = rawdata.b[1];
+    sortedData.b[2] = rawdata.b[2];
+    sortedData.b[3] = rawdata.b[3];
+    result = modbus_write_registers(m_bus, 0x000C, 2, (uint16_t*)sortedData.b);
     if (result >= 0)
     {
 
