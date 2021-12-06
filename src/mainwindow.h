@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "agilent34970a.h"
 #include "openffucontrolpts.h"
+#include "pdfoutput.h"
 #include <modbus/modbus-rtu.h>
 
 QT_BEGIN_NAMESPACE
@@ -46,6 +47,8 @@ private:
     Agilent34970A m_agilent;
     QTimer m_agilentReadTimer;
     QTimer m_PTSreadTimer;
+
+    PDFoutput m_pdf;
 
     modbus_t *m_bus;
 

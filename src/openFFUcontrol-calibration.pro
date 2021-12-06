@@ -1,6 +1,7 @@
 QT       += core gui
 QT += serialport
 QT += testlib
+QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,14 +15,16 @@ SOURCES += \
     agilent34970a.cpp \
     main.cpp \
     mainwindow.cpp \
-    openffucontrolpts.cpp
+    openffucontrolpts.cpp \
+    pdfoutput.cpp
 
 LIBS     += -lmodbus
 
 HEADERS += \
     agilent34970a.h \
     mainwindow.h \
-    openffucontrolpts.h
+    openffucontrolpts.h \
+    pdfoutput.h
 
 FORMS += \
     mainwindow.ui

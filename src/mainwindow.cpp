@@ -120,8 +120,24 @@ void MainWindow::slot_readPTS()
 void MainWindow::on_pushButton_PTS2_calibrate_clicked()
 {
     double offset = ui->doubleSpinBox_PTS1_temp->value() - ui->doubleSpinBox_PTS2_temp->value();
-    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
-    pts_2->writeCalibrationOffset(offset);
+//    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
+//    pts_2->writeCalibrationOffset(offset);
+
+    m_pdf.setFilename("/home/pdiener/calibration/PTS-calibration-" + QString().sprintf("%06d", (int)ui->doubleSpinBox_PTS2_serialNumber->value()) + ".pdf");
+    PDFoutput::CalibrationData calData;
+
+    calData.operatorName = "Peter Diener";
+    calData.master = "PTS #" + QString().setNum((int)ui->doubleSpinBox_PTS1_serialNumber->value()) + " @" + QString().sprintf("%.5lf °C",
+                                                                                                                              ui->doubleSpinBox_PTS1_offset->value());
+    calData.serialNumber = ui->doubleSpinBox_PTS2_serialNumber->value();
+    calData.slaveID = ui->doubleSpinBox_PTS2_address->value();
+    calData.temperature_calibratedAt = ui->doubleSpinBox_PTS1_temp->value();
+    calData.temperature_offset = offset;
+    calData.resistance_reference = ui->doubleSpinBox_PTS2_ResistorReference->value();
+    calData.resistance_r304 = ui->doubleSpinBox_PTS2_ResistorR304->value();
+
+    m_pdf.printCalibrationProtocol(calData);
+    QDesktopServices::openUrl(QUrl(m_pdf.filename()));
 }
 
 void MainWindow::on_pushButton_PTS2_setSerialNumber_clicked()
