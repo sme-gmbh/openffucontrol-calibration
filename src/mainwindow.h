@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QByteArray>
 #include "agilent34970a.h"
 #include "openffucontrolpts.h"
 #include "pdfoutput.h"

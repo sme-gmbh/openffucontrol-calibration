@@ -156,6 +156,9 @@ padding-right:32px;</string>
          <property name="maximum">
           <double>254.000000000000000</double>
          </property>
+         <property name="value">
+          <double>16.000000000000000</double>
+         </property>
         </widget>
        </item>
        <item>
@@ -656,7 +659,7 @@ padding-right:32px;</string>
           <double>254.000000000000000</double>
          </property>
          <property name="value">
-          <double>2.000000000000000</double>
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>

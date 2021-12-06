@@ -119,9 +119,9 @@ void MainWindow::slot_readPTS()
 
 void MainWindow::on_pushButton_PTS2_calibrate_clicked()
 {
-    double offset = ui->doubleSpinBox_PTS1_temp->value() - ui->doubleSpinBox_PTS2_temp->value();
-//    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
-//    pts_2->writeCalibrationOffset(offset);
+    double offset = ui->doubleSpinBox_PTS2_temp->value() + ui->doubleSpinBox_PTS2_offset->value() - ui->doubleSpinBox_PTS1_temp->value();
+    pts_2->setSlaveAddress((int)ui->doubleSpinBox_PTS2_address->value());
+    pts_2->writeCalibrationOffset(offset);
 
     m_pdf.setFilename("/home/pdiener/calibration/PTS-calibration-" + QString().sprintf("%06d", (int)ui->doubleSpinBox_PTS2_serialNumber->value()) + ".pdf");
     PDFoutput::CalibrationData calData;
@@ -138,6 +138,24 @@ void MainWindow::on_pushButton_PTS2_calibrate_clicked()
 
     m_pdf.printCalibrationProtocol(calData);
     QDesktopServices::openUrl(QUrl(m_pdf.filename()));
+
+    // Write calibration Data to csv file
+    QFile file("/home/pdiener/calibration/PTS-calibration.csv");
+
+    if (file.open(QIODevice::Append))
+    {
+        file.write(QByteArray().setNum(calData.serialNumber) + ";");
+        file.write(QDateTime::currentDateTime().toString().toUtf8() + ";");
+        file.write(calData.operatorName.toUtf8() + ";");
+        file.write(calData.master.toUtf8() + ";");
+        file.write(QByteArray().setNum(calData.slaveID) + ";");
+        file.write(QByteArray().setNum(calData.temperature_calibratedAt) + ";");
+        file.write(QByteArray().setNum(calData.temperature_offset) + ";");
+        file.write(QByteArray().setNum(calData.resistance_reference) + ";");
+        file.write(QByteArray().setNum(calData.resistance_r304) + ";");
+        file.write("\n");
+        file.close();
+    }
 }
 
 void MainWindow::on_pushButton_PTS2_setSerialNumber_clicked()
